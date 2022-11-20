@@ -74,3 +74,40 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+// SLICE
+
+let arr = ['a', 'b', 'c', 'd', 'e'];
+arr.slice(1);
+console.log(arr); // does not mutate original
+console.log(arr.slice(2)); // ['c', 'd', 'e']
+console.log(arr.slice(2, 4)); // Last one not included  ['c', 'd']
+console.log(arr.slice(-1)); // ['e']
+console.log(arr.slice(1, -1)); // ['b', 'c', 'd']
+console.log(arr.slice()); // shallow copy --> Can be used when chain of methods are to be used
+console.log([...arr]); // also creates a shallow copy
+
+// SPLICE
+
+// console.log(arr.splice(2)); // return spliced array --> ['c', 'd', 'e']
+// console.log(arr); // arr is mutated --> ['a', 'b']
+arr.splice(-1); // ['e']
+console.log(arr); // ['a', 'b', 'c', 'd']
+console.log(arr.splice(1, 3)); // ['b', 'c', 'd']
+console.log(arr); // ['a']
+
+// REVERSE
+arr = ['a', 'b', 'c', 'd', 'e'];
+console.log(arr.reverse()); // ['e', 'd', 'c', 'b', 'a']
+console.log(arr); // ['e', 'd', 'c', 'b', 'a']
+
+// CONCAT
+arr.reverse();
+let arr2 = ['f', 'g', 'h', 'i', 'j'];
+const letter = arr.concat(arr2);
+console.log(letter); // ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+console.log([...arr, ...arr2]); //  ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+
+// JOIN
+console.log(letter.join(' / ')); // even the space is included
+// a / b / c / d / e / f / g / h / i / j
