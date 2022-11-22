@@ -71,10 +71,39 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+for (const [index, movement] of movements.entries()) {
+  if (movement > 0)
+    console.log(`Movement ${index}: You deposited ${Math.abs(movement)}`);
+  else console.log(`Movement ${index}: You withdrew ${Math.abs(movement)}`);
+}
+
+console.log(`---------------FOR EACH------------------`);
+
+movements.forEach(function (movement, i, arr) {
+  if (movement > 0)
+    console.log(`Movement ${i}: You deposited ${Math.abs(movement)}`);
+  else console.log(`Movement ${i}: You withdrew ${Math.abs(movement)}`);
+});
+
+/*
+// AT method
+
+const arr = [12, 21, 13, 31];
+
+console.log(arr[0]); // 12
+console.log(arr.at(0)); // 12
+
+console.log(arr[arr.length - 1]); // 31
+console.log(arr.slice(-1)[0]); // 31
+console.log(arr.at(-1)); // 31 Does same work.
+
+/*
 // SLICE
 
 let arr = ['a', 'b', 'c', 'd', 'e'];
@@ -111,3 +140,4 @@ console.log([...arr, ...arr2]); //  ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i
 // JOIN
 console.log(letter.join(' / ')); // even the space is included
 // a / b / c / d / e / f / g / h / i / j
+*/
