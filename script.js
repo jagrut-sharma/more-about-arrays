@@ -80,11 +80,45 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const createUserNames = function (accs) {
+  accs.forEach(acc => {
+    acc.userName = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
+  });
+};
+
+createUserNames(accounts);
+console.log(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+/*
+// Map Method
+
+const conversionEurToUsd = 1.1;
+
+const movementsUsd = movements.map(mov => mov * conversionEurToUsd);
+console.log(movements);
+console.log(movementsUsd);
+
+const movementsUsdFor = [];
+
+for (const mov of movements) movementsUsdFor.push(mov * conversionEurToUsd);
+console.log(movements);
+console.log(movementsUsdFor);
+
+const movDescriptions = movements.map(
+  (mov, i) =>
+    `mov ${i}: You ${mov > 0 ? 'deposit' : 'withdrew'} ${Math.abs(mov)}`
+);
+
+console.log(movDescriptions);
 
 /////////////////////////////////////////////////
 
