@@ -80,9 +80,16 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
-const createUserNames = function (accs) {
-  accs.forEach(acc => {
-    acc.userName = acc.owner
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.innerText = `${balance}€`;
+};
+
+calcDisplayBalance(account1.movements);
+
+const createUserNames = function (accts) {
+  accts.forEach(acct => {
+    acct.userName = acct.owner
       .toLowerCase()
       .split(' ')
       .map(word => word[0])
@@ -91,12 +98,73 @@ const createUserNames = function (accs) {
 };
 
 createUserNames(accounts);
-console.log(accounts);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// Coding Challenge-3:
+
+const calcAvgHumanAge = function (ages) {
+  const adultDogs = ages
+    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+    .filter(age => age >= 18);
+
+  const avgAge =
+    adultDogs.reduce((acc, age) => acc + age, 0) / adultDogs.length;
+  console.log(avgAge);
+};
+
+calcAvgHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAvgHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+/*
+// Coding Challenge-2:
+
+const calcAvgHumanAge = function (ages) {
+  const humanAge = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+  console.log(humanAge);
+
+  const adultDogs = humanAge.filter(age => age >= 18);
+  console.log(adultDogs);
+
+  const totalAge = adultDogs.reduce((acc, age) => acc + age, 0);
+  const avgAge = totalAge / adultDogs.length;
+  console.log(avgAge);
+};
+
+calcAvgHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAvgHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
+/*
+// REDUCE Method:
+
+console.log(movements);
+const balance = movements.reduce(function (acc, curr, i, arr) {
+  // In reduce, accumulator is first then comes current element, index and then array
+  // console.log(`Iteration-${i}: ${acc}`);
+  return acc + curr;
+}, 100); // Given a initial value of 100
+console.log(balance);
+
+const balance1 = movements.reduce((acc, curr) => acc + curr, 0);
+console.log(balance1);
+
+const maxEntry = movements.reduce((acc, mov) => (acc < mov ? mov : acc), movements[0]); // Always use first element as initial value for acc in max/min because first value can be negative.
+console.log(maxEntry);
+/*
+// Filter Method:
+
+const deposits = movements.filter(mov => mov > 0);
+console.log(deposits);
+
+const withdrawal = movements.filter(mov => mov < 0);
+console.log(withdrawal);
+
+// Filter already has value of element, what the callback function needs is whether the condition is saisfied or not i.e. (true or false for condition)?
+// If condition is satisfied, i.e. true ==> It takes value of mov and then pushes it. If false, it does not pushes it.
+// The .filter callback (the arrow) function does not return the actual values to to push to the new array, it just tells .filter whether a line should be moved. And so it returns true or false, and then if true .filter will read and move the actual element.
 
 /*
 // Map Method
