@@ -71,7 +71,7 @@ const displayMovements = function (movements) {
       <div class="movements__type movements__type--${type}">${
       index + 1
     } ${type}</div>
-      <div class="movements__value">${mov} €</div>
+      <div class="movements__value">${mov}€</div>
     </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -86,6 +86,30 @@ const calcDisplayBalance = function (movements) {
 };
 
 calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+  const incoming = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  labelSumIn.textContent = `${incoming}€`;
+
+  const outgoing = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  labelSumOut.textContent = `${Math.abs(outgoing)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(amt => amt * (1.2 / 100))
+    .filter(int => int > 1)
+    .reduce((acc, int, i, arr) => acc + int, 0);
+
+  labelSumInterest.textContent = interest;
+};
+
+calcDisplaySummary(account1.movements);
 
 const createUserNames = function (accts) {
   accts.forEach(acct => {
@@ -104,15 +128,29 @@ createUserNames(accounts);
 // LECTURES
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+/*
+
+// Chaining methods
+const conversionEurToUsd = 1.1;
+console.log(movements);
+const totalDepositUSD = movements
+  .filter(mov => mov > 0)
+  .map((mov, i, arr) => {
+    console.log(arr); // While chaining, finding error can be difficult, so in that case we can use to console the array passed to determine the error
+    return mov * conversionEurToUsd;
+  })
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDepositUSD);
+
+/*
 // Coding Challenge-3:
 
 const calcAvgHumanAge = function (ages) {
-  const adultDogs = ages
+  const avgAge = ages
     .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
-    .filter(age => age >= 18);
-
-  const avgAge =
-    adultDogs.reduce((acc, age) => acc + age, 0) / adultDogs.length;
+    .filter(age => age >= 18)
+    .reduce((acc, age, i, arr) => acc + age / arr.length, 0); // (2+3)/2 ===> 2/2 + 3/2
   console.log(avgAge);
 };
 
