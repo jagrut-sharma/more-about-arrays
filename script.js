@@ -78,38 +78,32 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
-
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, curr) => acc + curr, 0);
   labelBalance.innerText = `${balance}€`;
 };
 
-calcDisplayBalance(account1.movements);
-
-const calcDisplaySummary = function (movements) {
-  const incoming = movements
+const calcDisplaySummary = function (acc) {
+  const incoming = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
 
   labelSumIn.textContent = `${incoming}€`;
 
-  const outgoing = movements
+  const outgoing = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
 
   labelSumOut.textContent = `${Math.abs(outgoing)}€`;
 
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(amt => amt * (1.2 / 100))
+    .map(amt => amt * (acc.interestRate / 100))
     .filter(int => int > 1)
     .reduce((acc, int, i, arr) => acc + int, 0);
 
-  labelSumInterest.textContent = interest;
+  labelSumInterest.textContent = interest.toFixed(2);
 };
-
-calcDisplaySummary(account1.movements);
 
 const createUserNames = function (accts) {
   accts.forEach(acct => {
@@ -122,6 +116,37 @@ const createUserNames = function (accts) {
 };
 
 createUserNames(accounts);
+
+btnLogin.addEventListener('click', function (e) {
+  // To prevent default nature of form, i.e. reloading everytime form is submitted.
+  // Note: prevent default and all events are attached to button
+  e.preventDefault();
+
+  const currAccount = accounts.find(
+    acc => acc.userName === inputLoginUsername.value
+  );
+  console.log(currAccount);
+
+  if (currAccount?.pin === Number(inputLoginPin.value)) {
+    // adding an optional chaining so it does not give an error and will check only if it exists otherwise if condition is not executed
+    console.log('inside');
+    inputLoginPin.value = inputLoginUsername.value = ''; // Assignment operator works RTL
+
+    // Lose focus from pin
+    inputLoginPin.blur();
+    // Welcome Message
+    labelWelcome.innerText = `Welcome back ${currAccount.owner.split(' ')[0]}`;
+
+    // To display balance data
+    containerApp.style.opacity = 1;
+    // Display balance
+    displayMovements(currAccount.movements);
+    // Display movements of funds
+    calcDisplayBalance(currAccount.movements);
+    // Display total movement and interests
+    calcDisplaySummary(currAccount);
+  }
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
