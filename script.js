@@ -129,6 +129,29 @@ createUserNames(accounts);
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /*
+// find
+
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(movements);
+console.log(firstWithdrawal);
+
+console.log(accounts);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+
+// Same thing will be done in for of as shown below:
+let accountFor = '';
+for (const acc of accounts) {
+  if (acc.owner === 'Jessica Davis') {
+    accountFor = acc;
+    break;
+  }
+}
+
+console.log(accountFor);
+
+/*
 
 // Chaining methods
 const conversionEurToUsd = 1.1;
