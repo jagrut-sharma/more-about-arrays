@@ -78,9 +78,9 @@ const displayMovements = function (movements) {
   });
 };
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, curr) => acc + curr, 0);
-  labelBalance.innerText = `${balance}€`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((account, curr) => account + curr, 0);
+  labelBalance.innerText = `${acc.balance}€`;
 };
 
 const calcDisplaySummary = function (acc) {
@@ -105,6 +105,15 @@ const calcDisplaySummary = function (acc) {
   labelSumInterest.textContent = interest.toFixed(2);
 };
 
+const updateUI = function (acc) {
+  // Display balance
+  displayMovements(acc.movements);
+  // Display movements of funds
+  calcDisplayBalance(acc);
+  // Display total movement and interests
+  calcDisplaySummary(acc);
+};
+
 const createUserNames = function (accts) {
   accts.forEach(acct => {
     acct.userName = acct.owner
@@ -117,19 +126,18 @@ const createUserNames = function (accts) {
 
 createUserNames(accounts);
 
+let currAccount;
+
 btnLogin.addEventListener('click', function (e) {
   // To prevent default nature of form, i.e. reloading everytime form is submitted.
   // Note: prevent default and all events are attached to button
   e.preventDefault();
 
-  const currAccount = accounts.find(
-    acc => acc.userName === inputLoginUsername.value
-  );
+  currAccount = accounts.find(acc => acc.userName === inputLoginUsername.value);
   console.log(currAccount);
 
   if (currAccount?.pin === Number(inputLoginPin.value)) {
     // adding an optional chaining so it does not give an error and will check only if it exists otherwise if condition is not executed
-    console.log('inside');
     inputLoginPin.value = inputLoginUsername.value = ''; // Assignment operator works RTL
 
     // Lose focus from pin
@@ -139,12 +147,38 @@ btnLogin.addEventListener('click', function (e) {
 
     // To display balance data
     containerApp.style.opacity = 1;
-    // Display balance
-    displayMovements(currAccount.movements);
-    // Display movements of funds
-    calcDisplayBalance(currAccount.movements);
-    // Display total movement and interests
-    calcDisplaySummary(currAccount);
+
+    // To update the balance, movement and summary
+    updateUI(currAccount);
+  }
+});
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.userName === inputTransferTo.value
+  );
+  console.log(receiverAcc, amount);
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    receiverAcc.userName !== currAccount.userName &&
+    currAccount.balance >= amount
+  ) {
+    console.log('inside if condition');
+    // Emptying the input
+    inputTransferAmount.value = '';
+    inputTransferTo.value = '';
+    inputTransferAmount.blur();
+
+    // Making the movement
+    currAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // To update the balance, movement and summary
+    updateUI(currAccount);
   }
 });
 
