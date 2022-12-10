@@ -126,6 +126,8 @@ const createUserNames = function (accts) {
 
 createUserNames(accounts);
 
+// Event Handlers
+
 let currAccount;
 
 btnLogin.addEventListener('click', function (e) {
@@ -182,10 +184,65 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currAccount.movements.some(mov => mov >= amount * 0.1)) {
+    currAccount.movements.push(amount);
+    updateUI(currAccount);
+    inputLoanAmount.value = '';
+    inputLoanAmount.blur();
+  }
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currAccount.userName &&
+    Number(inputClosePin.value) === currAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => currAccount.userName === acc.userName
+    );
+
+    // Delete account
+    accounts.splice(index, 1);
+    // Reset values
+    inputClosePin.value = inputCloseUsername.value = '';
+
+    // log out
+    containerApp.style.opacity = 0;
+  }
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// Some and Every:
+
+//some
+
+console.log(movements);
+console.log(movements.includes(-130)); // true
+console.log(movements.some(mov => mov === -130)); // same as includes in above
+
+const anyDeposit = movements.some(mov => mov > 0);
+console.log(anyDeposit); // true
+
+// every
+
+console.log(movements.every(mov => mov > 0)); // false
+console.log(account4.movements.every(mov => mov > 0)); // true
+
+// condition can be passed as callback as well.
+const condition = mov => mov > 0;
+console.log(movements.some(condition)); // true
+console.log(movements.every(condition)); // false
+console.log(movements.filter(condition)); // [200, 450, 3000, 70, 1300]
 
 /*
 // find
