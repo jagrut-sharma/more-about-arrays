@@ -61,9 +61,13 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
+  // checking whether to sort or not
+  // We have used slice as slice will create a shallow copy as sort will alter original movements array
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
   containerMovements.innerText = '';
-  movements.forEach((mov, index) => {
+  movs.forEach((mov, index) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -217,10 +221,43 @@ btnClose.addEventListener('click', function (e) {
   }
 });
 
+let sorted = false;
+btnSort.addEventListener('click', function () {
+  displayMovements(currAccount.movements, !sorted);
+  sorted = !sorted;
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+/*
+// SORT:
+
+const owners = ['Jagrut', 'Rahul', 'Sanjay', 'Vikram', 'Avinash'];
+owners.sort(); // mutates original array
+console.log(owners); // ['Avinash', 'Jagrut', 'Rahul', 'Sanjay', 'Vikram']
+// console.log(movements.sort()); // [-130, -400, -650, 1300, 200, 3000, 450, 70]
+console.log(movements);
+
+// movements.sort((a, b) => {
+//   if (a < b) return -1;
+//   if (b < a) return 1;
+// });
+
+// all of this can also be done as follows:
+movements.sort((a, b) => a - b);
+console.log(movements);
+
+// movements.sort((a, b) => {
+//   if (a < b) return 1;
+//   if (b < a) return -1;
+// });
+
+// all of this can also be done as follows:
+movements.sort((a, b) => b - a);
+console.log(movements);
 
 /*
 // flat and flatMap:
