@@ -222,6 +222,36 @@ btnClose.addEventListener('click', function (e) {
 // LECTURES
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+/*
+// flat and flatMap:
+
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat()); // [1, 2, 3, 4, 5, 6, 7, 8]
+const arr2 = [[1, 2, [3, 4]], [5, 6], [7, [8, 9, 10]], 11];
+console.log(arr2.flat()); //one level deep // [1, 2, [3, 4], 5, 6, 7, [8, 9, 10], 11]
+console.log(arr2.flat(2)); //one level deep // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+const accountMovements = accounts.map(acc => acc.movements);
+const allMovements = accountMovements.flat();
+const totalMovement = allMovements.reduce((acc, curr) => acc + curr, 0);
+console.log(totalMovement); // 17840
+
+// by chaning methods:
+
+const totalMovement2 = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, curr) => acc + curr, 0);
+console.log(totalMovement2); // 17840
+
+const totalMovement3 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, curr) => acc + curr, 0);
+
+console.log(totalMovement3); // 17840
+
+// using map and then flat is pretty common therefore flatMap => maps then flats.
+/*
 // Some and Every:
 
 //some
