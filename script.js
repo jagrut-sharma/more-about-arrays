@@ -232,6 +232,51 @@ btnSort.addEventListener('click', function () {
 // LECTURES
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+// Different ways of creating Array:
+
+console.log([1, 2, 3, 4, 5, 6, 7, 8, 9]); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+console.log(new Array(1, 2, 3, 4, 5, 6, 7, 8, 9)); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+// For one argument, creates that much empty elements array. Also map function does not work in this aray
+const x = new Array(7);
+console.log(x); // [empty × 5]
+// console.log(x.map(curr => 5)); // [empty × 5] --> no change
+// console.log(x.fill(5)); // fill() can be used for filling values. // [5, 5, 5, 5, 5]
+// console.log(x); // [5, 5, 5, 5, 5]
+// console.log(x.map(curr => curr + 1)); // Now we can map this. Empty array is not avaialable for map function
+// x.fill(1, 2);
+// console.log(x); // Fills from index 2 to end
+x.fill(1, 3, 5);
+console.log(x); // Fills from index 3 to 4
+
+// from method
+const y = Array.from({ length: 7 }, () => 1);
+const z = Array.from({ length: 7 }, (_, i) => i + 1); // underscore is used as throw-away variable as its value was never used
+console.log(y);
+console.log(z);
+
+// An array with 100 random dice rolls
+
+// const movementUI = Array.from(document.querySelectorAll('.movements__value'));
+// console.log(movementUI);
+
+labelBalance.addEventListener('click', function () {
+  const movementUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    ele => Number(ele.textContent.replace('€', ''))
+  );
+  // Note: Here in length, document.querySelectorAll('.movements__value') was passed instead of object with length property. The goal is to pass either an iterable that has length property which all array like objects do or else define length as a property as in above example of const y, z
+
+  // if map was not included in from
+  // console.log(movementUI.map(ele => Number(ele.textContent.replace('€', ''))));
+  console.log(movementUI);
+
+  // Using spread operator to convert into an array
+  const movementUI2 = [...document.querySelectorAll('.movements__value')];
+  console.log(movementUI2);
+  // Now we just need to do mapping differently.
+});
+
 /*
 // SORT:
 
