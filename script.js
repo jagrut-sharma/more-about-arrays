@@ -232,6 +232,74 @@ btnSort.addEventListener('click', function () {
 // LECTURES
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+// Some more exercise:
+
+// 1.  Getting sum of all positive deposits
+// const totalDeposits = accounts.map(acc => acc.movements).flat(); can also be written as 👇
+
+const totalDeposits = accounts
+  .flatMap(acc => acc.movements)
+  .filter(value => value > 0)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDeposits);
+
+// 2. Count no. of deposits above 1000:
+
+const totalDeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov >= 1000).length;
+
+console.log(totalDeposits1000);
+
+// 2.5 Another way
+
+const totalDeposits1000Second = accounts
+  .flatMap(acc => acc.movements)
+  .filter(val => val >= 1000)
+  .reduce((count, mov) => (mov >= 1000 ? ++count : count), 0);
+
+console.log(totalDeposits1000Second);
+
+// 3. Advance use-case of reduce method
+
+// const sampleObject = accounts
+// Can also use destructuring
+
+const { deposit: deposits, withdrawal: withdrawals } = accounts // renaming deposit and withdrawal
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, curr) => {
+      curr > 0 ? (sums.deposit += curr) : (sums.withdrawal += curr);
+      return sums;
+    },
+    { deposit: 0, withdrawal: 0 }
+  );
+
+console.log(deposits, withdrawals);
+
+// 4. Convert to a tile case: this is a title case => This Is a Title Case.
+
+const convertTitleCase = function (title) {
+  const exceptions = ['a', 'an', 'the', 'with', 'but', 'or', 'on', 'and', 'in'];
+
+  const capitalize = str => str[0].toUpperCase() + str.slice(1); // to handle cases that do not capitalize first word
+
+  const titleHeading = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+
+  console.log(capitalize(titleHeading));
+};
+
+convertTitleCase('hi, how are you?');
+convertTitleCase('this is a title case');
+convertTitleCase('this is a LONG title but not too long');
+convertTitleCase('and here is another title with an example');
+
+/*
 // Different ways of creating Array:
 
 console.log([1, 2, 3, 4, 5, 6, 7, 8, 9]); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
