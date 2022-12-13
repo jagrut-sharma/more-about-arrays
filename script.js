@@ -232,6 +232,104 @@ btnSort.addEventListener('click', function () {
 // LECTURES
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+/*
+// Coding Challenge-4:
+
+// Julia and Kate are still studying dogs, and this time they are studying if dogs are eating too much or too little. Eating too much means the dog's current food portion is larger than the recommended portion, and eating too little is the opposite.
+// Eating an okay amount means the dog's current food portion is within a range 10% above and 10% below the recommended portion (see hint).
+
+// 1. Loop over the array containing dog objects, and for each dog, calculate the recommended food portion and add it to the object as a new property. Do NOT create a new array, simply loop over the array. Forumla: recommendedFood = weight ** 0.75 * 28. (The result is in grams of food, and the weight needs to be in kg)
+// 2. Find Sarah's dog and log to the console whether it's eating too much or too little. HINT: Some dogs have multiple owners, so you first need to find Sarah in the owners array, and so this one is a bit tricky (on purpose) 🤓
+// 3. Create an array containing all owners of dogs who eat too much ('ownersEatTooMuch') and an array with all owners of dogs who eat too little ('ownersEatTooLittle').
+// 4. Log a string to the console for each array created in 3., like this: "Matilda and Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat too little!"
+// 5. Log to the console whether there is any dog eating EXACTLY the amount of food that is recommended (just true or false)
+// 6. Log to the console whether there is any dog eating an OKAY amount of food (just true or false)
+// 7. Create an array containing the dogs that are eating an OKAY amount of food (try to reuse the condition used in 6.)
+// 8. Create a shallow copy of the dogs array and sort it by recommended food portion in an ascending order (keep in mind that the portions are inside the array's objects)
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// 1.
+
+dogs.forEach(function (dog, i) {
+  dog.recommendedFood = Math.trunc(dog.weight ** 0.75 * 28);
+});
+
+console.log(dogs);
+
+// 2.
+
+const currentDiet = function (dog) {
+  if (dog.curFood > 1.1 * dog.recommendedFood) {
+    dog.currentDiet = 'Too much';
+  } else if (dog.curFood < 0.9 * dog.recommendedFood) {
+    dog.currentDiet = 'Too less';
+  } else dog.currentDiet = 'Okay';
+};
+
+dogs.forEach(dog => {
+  currentDiet(dog);
+  dog.owners.includes('Sarah')
+    ? console.log(`Sarah's dog eats: ${dog.currentDiet}`)
+    : '';
+});
+
+// 3.
+
+const ownersEatTooMuch = [];
+const ownersEatTooLittle = [];
+
+dogs.forEach(dog => {
+  if (dog.currentDiet === 'Too much') ownersEatTooMuch.push(...dog.owners);
+  else if (dog.currentDiet === 'Too less')
+    ownersEatTooLittle.push(...dog.owners);
+});
+
+console.log(ownersEatTooMuch);
+console.log(ownersEatTooLittle);
+
+// 4.
+
+let strTooMuch = '';
+let strTooLess = '';
+
+ownersEatTooMuch.map((owner, i) =>
+  i + 1 === ownersEatTooMuch.length
+    ? (strTooMuch += owner)
+    : (strTooMuch += `${owner} and `)
+);
+console.log(`${strTooMuch} have dogs who eat too much`);
+
+ownersEatTooLittle.map((owner, i) =>
+  i + 1 === ownersEatTooLittle.length
+    ? (strTooLess += owner)
+    : (strTooLess += `${owner} and `)
+);
+console.log(`${strTooLess} have dogs who eat too little`);
+
+// 5.
+
+dogs.forEach(dog => console.log(dog.recommendedFood === dog.curFood));
+
+// 6.
+const okay = [];
+dogs.forEach(dog =>
+  dog.currentDiet === 'Okay' ? okay.push(...dog.owners) : ''
+);
+console.log(okay);
+
+// 7.
+const dogsCopy = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood);
+console.log(dogsCopy);
+
+/*
 // Some more exercise:
 
 // 1.  Getting sum of all positive deposits
